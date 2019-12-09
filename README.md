@@ -1,6 +1,6 @@
 # soportenet-bot
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that LibreNet6 community key manager
+> A GitHub App built with [Probot](https://github.com/probot/probot) that send new keys to LibreNet6
 
 ## Setup
 
@@ -23,4 +23,4 @@ For more, check out the [Contributing Guide](CONTRIBUTING.md).
 
 ## License
 
-[ISC](LICENSE) © 2019 Marcos Gutierrez <gmarcos87@gmail.com>
+[AGPL-3.0 or later](LICENSE) © 2019 AlterMundi

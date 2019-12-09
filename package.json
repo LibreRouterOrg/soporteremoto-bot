@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "description": "LibreNet6 community key manager",
-  "author": "Marcos Gutierrez <gmarcos87@gmail.com>",
-  "license": "ISC",
+  "author": "AlterMundi ",
+  "license": " AGPL-3.0-or-later",
   "repository": "https://github.com/gmarcos87/soportenet-bot.git",
   "homepage": "https://github.com/gmarcos87/soportenet-bot",
   "bugs": "https://github.com/gmarcos87/soportenet-bot/issues",
   "keywords": [
+    "altermundi",
+    "librenet6",
     "probot",
     "github",
     "probot-app"
@@ -22,7 +24,8 @@
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
-    "probot": "^9.5.3"
+    "probot": "^9.5.3",
+    "probot-scheduler": "^2.0.0-beta.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
