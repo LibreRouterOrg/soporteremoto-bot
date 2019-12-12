@@ -1,0 +1,11 @@
+{
+    "token": "000",
+    "expires_at": "2040-12-12T14:19:35Z",
+    "permissions": {
+      "contents": "write",
+      "issues": "write",
+      "metadata": "read",
+      "pull_requests": "write"
+    },
+    "repository_selection": "selected"
+  }

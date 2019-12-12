@@ -1,0 +1,22 @@
+{
+    "total_count": 1,
+    "repository_selection": "selected",
+    "repositories": [
+      {
+        "id": 31551009,
+        "name": "librenet6-hostkeys",
+        "full_name": "libremesh/librenet6-hostkeys",
+        "private": false,
+        "owner": {
+          "login": "libremesh",
+          "id": 4405582
+        },
+        "default_branch": "master",
+        "permissions": {
+          "admin": false,
+          "push": false,
+          "pull": false
+        }
+      }
+    ]
+  }

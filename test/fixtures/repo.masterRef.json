@@ -1,0 +1,10 @@
+{
+    "ref": "refs/heads/master",
+    "node_id": "MDM6UmVmMzE1NTEwMDk6bWFzdGVy",
+    "url": "https://api.github.com/repos/libremesh/librenet6-hostkeys/git/refs/heads/master",
+    "object": {
+      "sha": "596f6c74283130d25c1a8a93f7e14b7470a2a0b7",
+      "type": "commit",
+      "url": "https://api.github.com/repos/libremesh/librenet6-hostkeys/git/commits/596f6c74283130d25c1a8a93f7e14b7470a2a0b7"
+    }
+  }

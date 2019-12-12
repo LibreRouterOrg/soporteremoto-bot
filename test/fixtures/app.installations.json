@@ -1,0 +1,19 @@
+[
+  {
+    "id": 5642208,
+    "account": {
+      "login": "libremesh",
+      "id": 4405582
+    },
+    "repository_selection": "selected",
+    "repositories_url": "https://api.github.com/installation/repositories",
+    "app_id": 123,
+    "target_id": 4405582,
+    "permissions": {
+      "contents": "write",
+      "issues": "write",
+      "metadata": "read",
+      "pull_requests": "write"
+    }
+  }
+]
