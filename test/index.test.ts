@@ -1,64 +1,79 @@
-// You can import your modules
-// import index from '../src/index'
+import request from 'supertest'
+import fs from 'fs'
+import path from 'path'
 
-import nock from 'nock'
 // Requiring our app implementation
-import myProbotApp from '../src'
+import botApp from '../src'
 import { Probot } from 'probot'
-// Requiring our fixtures
-import payload from './fixtures/issues.opened.json'
-const issueCreatedBody = { body: 'Thanks for opening this issue!' }
-const fs = require('fs')
-const path = require('path')
+import { setupNock } from './utils/setupNock'
 
-describe('My Probot app', () => {
+describe('SoporteRemoto bot for LibreNet6', () => {
   let probot: any
+  let logger: any
   let mockCert: string
 
   beforeAll((done: Function) => {
-    fs.readFile(path.join(__dirname, 'fixtures/mock-cert.pem'), (err: Error, cert: string) => {
+    fs.readFile(path.join(__dirname, 'fixtures/mock-cert.pem'), (err: NodeJS.ErrnoException | null, cert: Buffer) => {
       if (err) return done(err)
-      mockCert = cert
+      mockCert = cert.toString()
       done()
     })
   })
 
   beforeEach(() => {
-    nock.disableNetConnect()
+    setupNock()
+    logger = jest.fn()
     probot = new Probot({ id: 123, cert: mockCert })
+    probot.logger.addStream({
+      level: 'trace',
+      stream: { write: logger } as any,
+      type: 'raw'
+    })
     // Load our app into probot
-    probot.load(myProbotApp)
+    probot.load(botApp)
   })
 
-  test('creates a comment when an issue is opened', async (done) => {
-    // Test that we correctly return a test token
-    nock('https://api.github.com')
-      .post('/app/installations/2/access_tokens')
-      .reply(200, { token: 'test' })
-
-    // Test that a comment is posted
-    nock('https://api.github.com')
-      .post('/repos/hiimbex/testing-things/issues/1/comments', (body: any) => {
-        done(expect(body).toMatchObject(issueCreatedBody))
-        return true
-      })
-      .reply(200)
-
-    // Receive a webhook event
-    await probot.receive({ name: 'issues', payload })
+  it('Return error if payload is incomplete', async (done) => {
+    const data = {}
+    const res = await request(probot.server)
+      .post('/send-key')
+      .send(data)
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toHaveProperty('error')
+    expect(res.body.error).toEqual('missing parameter')
+    done()
   })
 
-  afterEach(() => {
-    nock.cleanAll()
-    nock.enableNetConnect()
+  it('Create a pull-request', async (done) => {
+    const data = {
+      communityName: 'quintanalibre',
+      deviceName: 'soporte-nice-red',
+      pubKey: 'MIIBCgKCAQEAw+N+2iwUGgP4TBI2kdWBGOaN0p8tkc/4jvU1waiHV41x9Xje4iL5\ne85CMeuMbT1InCJgciZ0yoG1kpimgiBj/pHAOKCxia9MInpv0lGq3l4Ih7Wvh1ng\nnlASOiHblrFdHRA/mg0BzW9e550TLaNoGRKQrbjtupiyUbJGMrymfge8d1AkK+Us\nufBNnGfDMF1pCjIE4TF2ss370dJpF945aHhYcnFihkSN5c17tlP2QcQ1mY3xUfVC\nDYEW34gY2XNAUXM0QJ7VWf+KC0Han5Liyd1XOZBDv6ZRhG+4jJVocKFWXp8eKttT\nQujFquajmj6cblFywipo9V2Qp2J+EKNCeQIDAQAB'
+    }
+
+    const res = await request(probot.server)
+      .post('/send-key')
+      .send(data)
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toHaveProperty('ok')
+    expect(res.body.ok).toBe(true)
+    done()
+  })
+
+  it('Returns an error if something fails to create a pull-request request', async (done) => {
+    jest.setTimeout(30000)
+    const data = {
+      communityName: 'quintanalibre',
+      deviceName: 'soporte-nice-blue',
+      pubKey: 'MIIBCgKCAQEAw+N+2iwUGgP4TBI2kdWBGOaN0p8tkc/4jvU1waiHV41x9Xje4iL5\ne85CMeuMbT1InCJgciZ0yoG1kpimgiBj/pHAOKCxia9MInpv0lGq3l4Ih7Wvh1ng\nnlASOiHblrFdHRA/mg0BzW9e550TLaNoGRKQrbjtupiyUbJGMrymfge8d1AkK+Us\nufBNnGfDMF1pCjIE4TF2ss370dJpF945aHhYcnFihkSN5c17tlP2QcQ1mY3xUfVC\nDYEW34gY2XNAUXM0QJ7VWf+KC0Han5Liyd1XOZBDv6ZRhG+4jJVocKFWXp8eKttT\nQujFquajmj6cblFywipo9V2Qp2J+EKNCeQIDAQAB'
+    }
+
+    const res = await request(probot.server)
+      .post('/send-key')
+      .send(data)
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toHaveProperty('error')
+    expect(res.body.error).toEqual('can not create the pull-request')
+    done()
   })
 })
-
-// For more information about testing with Jest see:
-// https://facebook.github.io/jest/
-
-// For more information about using TypeScript in your tests, Jest recommends:
-// https://github.com/kulshekhar/ts-jest
-
-// For more information about testing with Nock see:
-// https://github.com/nock/nock
