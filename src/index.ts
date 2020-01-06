@@ -49,7 +49,7 @@ export = (app: Application) => {
           await openPR(repo, github, {
             file: {
               path: `soporteremoto_${communityName}_${deviceName}`,
-              content: `-----BEGIN RSA PUBLIC KEY-----\n${pubKey}\n-----END RSA PUBLIC KEY-----\n`
+              content: `${pubKey}`
             },
             pr: {
               title: communityName + ' wants to be part of the LibreNet6 network',
